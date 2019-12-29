@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -17,10 +18,10 @@ public class showParsed : MonoBehaviour
         {
             string tmp = "";
             if (mainCtrl.indexesMain[i] == 0) continue;
-            tmp += (mainCtrl.indexesMain[i] < 0) ? "-" + Mathf.Abs(mainCtrl.indexesMain[i]) : "+" + mainCtrl.indexesMain[i];
+            tmp += (mainCtrl.indexesMain[i] < 0) ? "-" + Math.Abs(mainCtrl.indexesMain[i]) : "+" + mainCtrl.indexesMain[i];
             s += tmp + "*x" + (i + 1);
         }
-        s += (mainCtrl.mFunConst < 0) ? "-" + Mathf.Abs(mainCtrl.mFunConst) : "+" + mainCtrl.mFunConst;
+        s += (mainCtrl.mFunConst < 0) ? "-" + Math.Abs(mainCtrl.mFunConst) : "+" + mainCtrl.mFunConst;
         s += " для " + ((mainCtrl.toMax) ? "max" : "min");
         mainF.text = s;
         if (restContent.transform.childCount > 0)
@@ -47,16 +48,20 @@ public class showParsed : MonoBehaviour
         {
             string tmp = "";
             if (rest.indexes[i] == 0) continue;
-            tmp += (rest.indexes[i] < 0) ? "-" + Mathf.Abs(rest.indexes[i]) : "+" + rest.indexes[i];
+            tmp += (rest.indexes[i] < 0) ? "-" + Math.Abs(rest.indexes[i]) : "+" + rest.indexes[i];
             s += tmp + "*x" + (i + 1);
         }
         if(rest.type == 0)
         {
-            s += ">=";
+            s += "<=";
+        }
+        else if(rest.type == 1)
+        {
+            s += "=";
         }
         else
         {
-            s += "=";
+            s += ">=";
         }
         s += rest.b;
         return s;

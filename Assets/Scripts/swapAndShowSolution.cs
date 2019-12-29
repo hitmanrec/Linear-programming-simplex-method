@@ -7,7 +7,7 @@ public class swapAndShowSolution : MonoBehaviour
 {
     public GameObject screenToDisable, screenToEnable;
     public mainController mainCtrl;
-    public TMP_Text solutionText, optimalX, optimalZ;
+    public TMP_Text solutionText;
 
     public void doWhatNameSays()
     {
@@ -33,6 +33,12 @@ public class swapAndShowSolution : MonoBehaviour
         optimalZ.text = "";
         optimalZ.text = "Оптимальное значение: " + solution.OptimalObjectiveFunctionValue.ToString();
         */
+
+
+
+        simplex solver = new simplex(mainCtrl.totalVariables, mainCtrl.totalRestrictions, mainCtrl.indexesMain, mainCtrl.toMax, mainCtrl.rests, solutionText);
+        solver.init();
+        solver.gen_plane();
         screenToDisable.SetActive(false);
         screenToEnable.SetActive(true);
     }

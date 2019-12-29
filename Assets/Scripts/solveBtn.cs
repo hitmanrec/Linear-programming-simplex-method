@@ -18,7 +18,7 @@ public class solveBtn : MonoBehaviour
         mFunc = mFunc.TrimEnd(' ');
         mFunc = mFunc.TrimStart(' ');
         mFunc = mFunc.Replace("−", "-").Replace(".", ",");
-        float[] mFuncInd = new float[mainCtrl.totalVariables];
+        double[] mFuncInd = new double[mainCtrl.totalVariables];
         //float mFuncConst = float.Parse(mainFunc.transform.Find("cInp").GetComponent<TMP_InputField>().text.Replace("−", "-").Replace(".", ","));
         //mainCtrl.mFunConst = mFuncConst;
         string tmp = "";
@@ -26,7 +26,7 @@ public class solveBtn : MonoBehaviour
         {
             if(mFunc[i] == ' ' && i != l-1)
             {
-                mFuncInd[k] = float.Parse(tmp);
+                mFuncInd[k] = double.Parse(tmp);
                 tmp = "";
                 k++;
             }
@@ -35,7 +35,7 @@ public class solveBtn : MonoBehaviour
                 tmp += mFunc[i];
             }
         }
-        mFuncInd[mainCtrl.totalVariables-1] = float.Parse(tmp);
+        mFuncInd[mainCtrl.totalVariables-1] = double.Parse(tmp);
         mainCtrl.indexesMain = mFuncInd;
         TMP_Dropdown dir = mainFunc.transform.Find("direction").GetComponent<TMP_Dropdown>();
         if(dir.value > 0)
@@ -66,13 +66,13 @@ public class solveBtn : MonoBehaviour
         rest = rest.TrimStart(' ');
         rest = rest.Replace("−", "-");
         rest = rest.Replace(".", ",");
-        float[] restVars = new float[mainCtrl.totalVariables];
+        double[] restVars = new double[mainCtrl.totalVariables];
         string tmp = "" + rest[0];
         for (int i = 1, k = 0, l = rest.Length; i < l && k < mainCtrl.totalVariables; i++)
         {
             if (rest[i] == ' ' && i!=l-1)
             {
-                restVars[k] = float.Parse(tmp);
+                restVars[k] = double.Parse(tmp);
                 tmp = "";
                 k++;
             }
@@ -82,13 +82,13 @@ public class solveBtn : MonoBehaviour
             }
         }
         
-        restVars[mainCtrl.totalVariables-1] = float.Parse(tmp);
+        restVars[mainCtrl.totalVariables-1] = double.Parse(tmp);
         TMP_Dropdown type = restriction.Find("type").GetComponent<TMP_Dropdown>();
         int nType = type.value;
         restriction res;
         res.indexes = restVars;
         res.type = nType;
-        res.b = float.Parse(restriction.Find("bInp").GetComponent<TMP_InputField>().text.Replace("−", "-").Replace(".", ","));
+        res.b = double.Parse(restriction.Find("bInp").GetComponent<TMP_InputField>().text.Replace("−", "-").Replace(".", ","));
         return res;
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 [Serializable]
 public struct restriction
 {
-    public float[] indexes;
+    public double[] indexes;
     public int type;
-    public float b;
+    public double b;
 }
 
 public class mainController : MonoBehaviour
@@ -14,8 +14,8 @@ public class mainController : MonoBehaviour
     public int totalVariables = 0;
     public int totalRestrictions = 0;
     public restriction[] rests;
-    public float[] indexesMain;
-    public float mFunConst = 0;
+    public double[] indexesMain;
+    public double mFunConst = 0;
     public bool toMax;
 
     public void eraseIfNotDouble(TMPro.TMP_InputField textInp)
