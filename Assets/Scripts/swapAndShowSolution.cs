@@ -11,34 +11,91 @@ public class swapAndShowSolution : MonoBehaviour
 
     public void doWhatNameSays()
     {
-        /*
-        var problem = LinearProblemSolver.createProblem(mainCtrl.indexesMain);
 
-        for(int i = 0; i < mainCtrl.totalRestrictions; i++)
+
+        //legacy solver
+        //simplex solver = new simplex(mainCtrl.totalVariables, mainCtrl.totalRestrictions, mainCtrl.indexesMain, mainCtrl.toMax, mainCtrl.rests, solutionText);
+        //solver.init();
+        //solver.gen_plane();
+
+        double[,] table = new double[mainCtrl.totalRestrictions + 1, mainCtrl.totalVariables + 1];
+        for (int i = 0; i < mainCtrl.totalRestrictions + 1; i++)
         {
-            problem = LinearProblemSolver.addConstraint(ref problem, mainCtrl.rests[i]);
-            problem = LinearProblemSolver.addUnarConstraint(ref problem, i, mainCtrl.totalVariables);
+            for (int j = 0; j < mainCtrl.totalVariables + 1; j++)
+            {
+                if (i < mainCtrl.totalRestrictions)
+                {
+                    if (j == 0)
+                    {
+                        table[i, j] = mainCtrl.rests[i].b;
+                    }
+                    else
+                    {
+                        table[i, j] = mainCtrl.rests[i].indexes[j - 1];
+                    }
+                }
+                else
+                {
+                    if (j == 0)
+                    {
+                        table[i, j] = 0;
+                    }
+                    else
+                    {
+                        if (mainCtrl.toMax)
+                        {
+                            table[i, j] = -mainCtrl.indexesMain[j - 1];
+                        }
+                        else
+                        {
+                            table[i, j] = mainCtrl.indexesMain[j - 1];
+                        }
+                    }
+
+                }
+            }
         }
 
-        var solution = LinearProblemSolver.solveProblem(ref problem, mainCtrl.toMax);
-        
-        solutionText.text = "";
-        optimalX.text = "";
-        double[] optXes = new double[solution.OptimalX.Length];
-        for (int i = 0; i < solution.OptimalX.Length; i++) {
-            optXes[i] = solution.OptimalX[i];
-            optimalX.text += "X" + (i+1) + " = " + optXes[i].ToString() + "\n";
+        //solutionText.text = "Начальная симплекс-таблица:\n";
+        //for (int i = 0; i < table.GetLength(0); i++)
+        //{
+        //    for (int j = 0; j < table.GetLength(1); j++)
+        //        solutionText.text += string.Format("{0,-8}", table[i, j]);
+        //    solutionText.text += "\n";
+        //}
+
+        double[] result = new double[mainCtrl.totalVariables];
+        double[,] result_table;
+        //Simplex s = new Simplex(table);
+        //result_table = s.Calculate(result);
+
+        //double[,] table = { {25, -3,  5},
+        //                    {30, -2,  5},
+        //                    {10,  1,  0},
+        //                    { 6,  3, -8},
+        //                    { 0, -6, -5} };
+
+        int[] signs = new int[mainCtrl.totalRestrictions];
+        for(int i = 0, l = signs.GetLength(0); i < l; i++)
+        {
+            signs[i] = mainCtrl.rests[i].type;
+        }
+        Simplex S = new Simplex(table, signs);
+        result_table = S.Calculate(result);
+
+        solutionText.text = "Решенная симплекс-таблица:\n";
+        for (int i = 0; i < result_table.GetLength(0); i++)
+        {
+            for (int j = 0; j < result_table.GetLength(1); j++)
+                solutionText.text += string.Format("{0,-8}" ,result_table[i, j]);
+            solutionText.text += "\n";
         }
 
-        optimalZ.text = "";
-        optimalZ.text = "Оптимальное значение: " + solution.OptimalObjectiveFunctionValue.ToString();
-        */
+        solutionText.text += "Решение:";
+        for (int i = 0; i < result.GetLength(0); i++)
+            solutionText.text += string.Format("{0,-6} {1,-8}", "\nX" + (i+1) + " = ", result[i]);
+        solutionText.text += string.Format("{0,-6} {1,-8}", "\nZ = ", result_table[result_table.GetLength(0)-1, 0]);
 
-
-
-        simplex solver = new simplex(mainCtrl.totalVariables, mainCtrl.totalRestrictions, mainCtrl.indexesMain, mainCtrl.toMax, mainCtrl.rests, solutionText);
-        solver.init();
-        solver.gen_plane();
         screenToDisable.SetActive(false);
         screenToEnable.SetActive(true);
     }
