@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -87,14 +88,14 @@ public class swapAndShowSolution : MonoBehaviour
         for (int i = 0; i < result_table.GetLength(0); i++)
         {
             for (int j = 0; j < result_table.GetLength(1); j++)
-                solutionText.text += string.Format("{0,-8}" ,result_table[i, j]);
+                solutionText.text += string.Format("{0, -8}", Math.Round(result_table[i, j],2));
             solutionText.text += "\n";
         }
 
         solutionText.text += "Решение:";
         for (int i = 0; i < result.GetLength(0); i++)
-            solutionText.text += string.Format("{0,-6} {1,-8}", "\nX" + (i+1) + " = ", result[i]);
-        solutionText.text += string.Format("{0,-6} {1,-8}", "\nZ = ", result_table[result_table.GetLength(0)-1, 0]);
+            solutionText.text += string.Format("{0,-6}  {1,-8}", "\nX" + (i+1) + " = ", Math.Round(result[i],2));
+        solutionText.text += string.Format("{0,-6} {1,-8}", "\nZ = ", Math.Round(result_table[result_table.GetLength(0)-1, 0], 2));
 
         screenToDisable.SetActive(false);
         screenToEnable.SetActive(true);
